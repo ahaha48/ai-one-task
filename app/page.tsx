@@ -11,7 +11,7 @@ import AssigneeSummaryBar from '@/components/AssigneeSummaryBar'
 import StackedTaskList from '@/components/StackedTaskList'
 
 const DEFAULT_FILTERS: Filters = {
-  status: 'すべて',
+  status: '未対応',
   assignee: '',
   category: '',
   requester: '',
@@ -142,6 +142,10 @@ export default function Home() {
                 担当者別
               </button>
             </div>
+            <Link href="/completed" className="text-xs md:text-sm text-white/80 hover:text-white border border-white/30 rounded-lg px-2.5 py-1.5 hover:bg-white/10 flex items-center gap-1">
+              完了済み
+              {counts['完了'] > 0 && <span className="bg-white/20 rounded-full px-1.5 py-0.5 text-xs">{counts['完了']}</span>}
+            </Link>
             <Link href="/settings" className="text-xs md:text-sm text-white/80 hover:text-white border border-white/30 rounded-lg px-2.5 py-1.5 hover:bg-white/10">
               設定
             </Link>
