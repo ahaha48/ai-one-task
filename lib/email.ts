@@ -1,4 +1,4 @@
-import { Resend } from 'resend'
+import nodemailer from 'nodemailer'
 import { Task } from './supabase'
 import { getDueDateStatus } from './dateUtils'
 import { googleCalendarLink, generateICS } from './calendar'
@@ -8,10 +8,20 @@ export async function sendTaskReminders(
   emailMap: Record<string, string>, // 担当者名 → メールアドレス
   fromEmail: string
 ) {
-  const apiKey = process.env.RESEND_API_KEY
-  if (!apiKey) throw new Error('RESEND_API_KEY が設定されていません')
+  const gmailUser = process.env.GMAIL_USER
+  const gmailPassword = process.env.GMAIL_APP_PASSWORD
 
-  const resend = new Resend(apiKey)
+  if (!gmailUser || !gmailPassword) {
+    throw new Error('GMAIL_USER または GMAIL_APP_PASSWORD が設定されていません')
+  }
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: gmailUser,
+      pass: gmailPassword,
+    },
+  })
 
   // 未対応タスクのうち、期日超過・当日・前日のものを抽出
   const targetTasks = tasks.filter(t => {
@@ -62,8 +72,8 @@ export async function sendTaskReminders(
     const icsContent = generateICS(tasksWithDue, name)
     const attachments = icsContent ? [{
       filename: 'tasks.ics',
-      content: Buffer.from(icsContent).toString('base64'),
-      content_type: 'text/calendar; charset=utf-8; method=PUBLISH',
+      content: Buffer.from(icsContent),
+      contentType: 'text/calendar; charset=utf-8; method=PUBLISH',
     }] : []
 
     const html = `
@@ -87,8 +97,8 @@ export async function sendTaskReminders(
   <p style="color:#6b7280;font-size:12px;">このメールはAI ONEタスク管理システムから自動送信されています。</p>
 </div>`
 
-    await resend.emails.send({
-      from: fromEmail,
+    await transporter.sendMail({
+      from: `AI ONE タスク管理 <${fromEmail}>`,
       to: email,
       subject: `【AI ONE】${name}さん宛に未対応タスクが${assigneeTasks.length}件あります`,
       html,
