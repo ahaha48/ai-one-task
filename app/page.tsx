@@ -40,8 +40,8 @@ export default function Home() {
 
   const fetchData = useCallback(async () => {
     const [tasksRes, settingsRes] = await Promise.all([
-      fetch('/api/tasks'),
-      fetch('/api/settings'),
+      fetch('/api/tasks', { cache: 'no-store' }),
+      fetch('/api/settings', { cache: 'no-store' }),
     ])
     const [tasksData, settingsData] = await Promise.all([
       tasksRes.json(),
