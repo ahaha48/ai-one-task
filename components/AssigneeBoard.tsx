@@ -141,7 +141,9 @@ export default function AssigneeBoard({ tasks, settings, onUpdated }: Props) {
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set())
 
   const members = settings.members.filter(Boolean)
-  const allAssignees = [...new Set([...settings.assignees, ...members])]
+  const fromSettings = [...new Set([...settings.assignees, ...members])]
+  const fromTasks = tasks.flatMap(t => t.assignee.split(',').map(s => s.trim()).filter(Boolean))
+  const allAssignees = [...new Set([...fromSettings, ...fromTasks])]
 
   const tasksByAssignee = (name: string) =>
     tasks.filter(t => t.assignee.split(',').map(s => s.trim()).includes(name))

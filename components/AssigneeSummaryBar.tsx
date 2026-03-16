@@ -11,7 +11,11 @@ type Props = {
 
 export default function AssigneeSummaryBar({ tasks, settings, onFilterByAssignee }: Props) {
   const members = settings.members.filter(Boolean)
-  const allAssignees = [...new Set([...settings.assignees, ...members])]
+  const fromSettings = [...new Set([...settings.assignees, ...members])]
+
+  // タスクに直接含まれる担当者名もすべて拾う（自分→自分へのタスクなども含める）
+  const fromTasks = tasks.flatMap(t => t.assignee.split(',').map(s => s.trim()).filter(Boolean))
+  const allAssignees = [...new Set([...fromSettings, ...fromTasks])]
 
   const getTasksFor = (name: string) =>
     tasks.filter(t => t.assignee.split(',').map(s => s.trim()).includes(name))
