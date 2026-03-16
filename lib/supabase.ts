@@ -34,6 +34,26 @@ export type Task = {
   due_date: string | null
   created_at: string
   completed_at: string | null
+  assignee_statuses: string | null // JSON: { "担当者名": "未対応"|"対応中"|"完了" }
+}
+
+// 担当者ごとのステータスを取得
+export function getAssigneeStatus(task: Task, name: string): TaskStatus {
+  if (!task.assignee_statuses) return task.status
+  try {
+    const map = JSON.parse(task.assignee_statuses) as Record<string, TaskStatus>
+    return map[name] ?? task.status
+  } catch {
+    return task.status
+  }
+}
+
+// 全担当者のステータスから全体ステータスを計算
+export function calcOverallStatus(statuses: Record<string, TaskStatus>): TaskStatus {
+  const values = Object.values(statuses)
+  if (values.every(s => s === '完了')) return '完了'
+  if (values.some(s => s === '対応中' || s === '完了')) return '対応中'
+  return '未対応'
 }
 
 export type Settings = {

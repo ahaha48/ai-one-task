@@ -1,12 +1,18 @@
 'use client'
 
 import { useState } from 'react'
-import { Task, TaskStatus, Settings } from '@/lib/supabase'
+import { Task, TaskStatus, Settings, getAssigneeStatus } from '@/lib/supabase'
 import { getDueDateStatus, DUE_STYLES, formatDueDate } from '@/lib/dateUtils'
 
 type Props = {
   tasks: Task[]
   settings: Settings
+  onUpdated: () => void
+}
+
+type CompactProps = {
+  task: Task
+  assigneeName: string
   onUpdated: () => void
 }
 
@@ -21,13 +27,15 @@ const STATUS_NEXT: Record<TaskStatus, TaskStatus> = {
 }
 
 // タスクカード（ステータス変更・メモ編集付き）
-function TaskCardCompact({ task, onUpdated }: { task: Task; onUpdated: () => void }) {
+function TaskCardCompact({ task, assigneeName, onUpdated }: CompactProps) {
   const [loading, setLoading] = useState(false)
   const [editingMemo, setEditingMemo] = useState(false)
   const [memoValue, setMemoValue] = useState(task.memo ?? '')
 
-  const urgent = task.is_urgent === true && task.status !== '完了'
-  const done = task.status === '完了'
+  // 担当者個別のステータスを取得
+  const myStatus = getAssigneeStatus(task, assigneeName)
+  const urgent = task.is_urgent === true && myStatus !== '完了'
+  const done = myStatus === '完了'
   const dueDateStatus = done ? 'normal' : getDueDateStatus(task.due_date)
   const dueStyle = DUE_STYLES[dueDateStatus]
   const [cardBg, cardBorder] = urgent
@@ -42,7 +50,7 @@ function TaskCardCompact({ task, onUpdated }: { task: Task; onUpdated: () => voi
     await fetch(`/api/tasks/${task.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: STATUS_NEXT[task.status] }),
+      body: JSON.stringify({ assignee_name: assigneeName, status: STATUS_NEXT[myStatus] }),
     })
     setLoading(false)
     onUpdated()
@@ -66,7 +74,7 @@ function TaskCardCompact({ task, onUpdated }: { task: Task; onUpdated: () => voi
       <div className="flex items-center justify-between gap-1">
         <div className="flex items-center gap-1">
           {icon && <span className="text-xs">{icon}</span>}
-          <span className={`text-xs font-medium px-1.5 py-0.5 rounded-full ${STATUS_COLORS[task.status]}`}>{task.status}</span>
+          <span className={`text-xs font-medium px-1.5 py-0.5 rounded-full ${STATUS_COLORS[myStatus]}`}>{myStatus}</span>
         </div>
         {task.due_date && !done && (
           <span className={`text-xs font-medium ${dueStyle.text}`}>
@@ -121,9 +129,9 @@ function TaskCardCompact({ task, onUpdated }: { task: Task; onUpdated: () => voi
         disabled={loading}
         className="w-full text-xs border rounded py-1 bg-white hover:bg-gray-50 disabled:opacity-50"
       >
-        {task.status === '未対応' && '対応中にする'}
-        {task.status === '対応中' && '完了にする'}
-        {task.status === '完了' && '未対応に戻す'}
+        {myStatus === '未対応' && '対応中にする'}
+        {myStatus === '対応中' && '完了にする'}
+        {myStatus === '完了' && '未対応に戻す'}
       </button>
     </div>
   )
@@ -139,7 +147,7 @@ export default function AssigneeBoard({ tasks, settings, onUpdated }: Props) {
     tasks.filter(t => t.assignee.split(',').map(s => s.trim()).includes(name))
 
   const activeTasks = (name: string) =>
-    tasksByAssignee(name).filter(t => t.status !== '完了')
+    tasksByAssignee(name).filter(t => getAssigneeStatus(t, name) !== '完了')
 
   const assigneesWithTasks = allAssignees.filter(a => tasksByAssignee(a).length > 0)
 
@@ -216,7 +224,7 @@ export default function AssigneeBoard({ tasks, settings, onUpdated }: Props) {
                       return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
                     })
                     .map(task => (
-                      <TaskCardCompact key={task.id} task={task} onUpdated={onUpdated} />
+                      <TaskCardCompact key={task.id} task={task} assigneeName={name} onUpdated={onUpdated} />
                     ))}
                 </div>
               </div>
