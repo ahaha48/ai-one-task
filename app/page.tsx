@@ -166,23 +166,21 @@ export default function Home() {
             <p className="text-4xl mb-3">📋</p>
             <p>タスクがありません</p>
           </div>
+        ) : viewMode === 'stack' ? (
+          <StackedTaskList tasks={filtered} settings={settings} onUpdated={fetchData} onDeleted={fetchData} />
         ) : (
-          {viewMode === 'stack' ? (
-            <StackedTaskList tasks={filtered} settings={settings} onUpdated={fetchData} onDeleted={fetchData} />
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filtered.map(task => (
-                <TaskCard
-                  key={task.id}
-                  task={task}
-                  settings={settings}
-                  onUpdated={fetchData}
-                  onDeleted={fetchData}
-                />
-              ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filtered.map(task => (
+              <TaskCard
+                key={task.id}
+                task={task}
+                settings={settings}
+                onUpdated={fetchData}
+                onDeleted={fetchData}
+              />
+            ))}
             </div>
           )}
-        )}
       </main>
 
       {showModal && (
