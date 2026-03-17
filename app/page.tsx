@@ -150,6 +150,7 @@ export default function Home() {
             onSelectAssignee={name => {
               setFilters(f => ({ ...f, assignee: f.assignee === name ? '' : name }))
             }}
+            onUpdated={fetchData}
           />
         )}
 

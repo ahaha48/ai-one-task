@@ -3,12 +3,14 @@
 import { useState } from 'react'
 import { Task, Settings, getAssigneeStatus } from '@/lib/supabase'
 import { getDueDateStatus, formatDueDate } from '@/lib/dateUtils'
+import EditTaskModal from '@/components/EditTaskModal'
 
 type Props = {
   tasks: Task[]
   settings: Settings
   selectedAssignee: string
   onSelectAssignee: (name: string) => void
+  onUpdated: () => void
 }
 
 function formatDueDateShort(dateStr: string | null): string {
@@ -17,8 +19,9 @@ function formatDueDateShort(dateStr: string | null): string {
   return `${d.getMonth() + 1}/${d.getDate()}`
 }
 
-export default function AssigneeOverview({ tasks, settings, selectedAssignee, onSelectAssignee }: Props) {
+export default function AssigneeOverview({ tasks, settings, selectedAssignee, onSelectAssignee, onUpdated }: Props) {
   const [expandedNames, setExpandedNames] = useState<Set<string>>(new Set())
+  const [editingTask, setEditingTask] = useState<Task | null>(null)
 
   const members = settings.members.filter(Boolean)
   const fromSettings = [...new Set([...settings.assignees, ...members])]
@@ -40,6 +43,7 @@ export default function AssigneeOverview({ tasks, settings, selectedAssignee, on
   }
 
   return (
+    <>
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <h2 className="text-sm font-bold text-gray-600 uppercase tracking-wide">担当者別 タスク状況</h2>
@@ -169,7 +173,11 @@ export default function AssigneeOverview({ tasks, settings, selectedAssignee, on
                         normal: 'text-gray-400',
                       }
                       return (
-                        <div key={task.id} className="px-4 py-2.5 hover:bg-gray-50">
+                        <button
+                          key={task.id}
+                          className="w-full px-4 py-2.5 hover:bg-blue-50 text-left transition-colors"
+                          onClick={() => setEditingTask(task)}
+                        >
                           <div className="flex items-start gap-2">
                             <div className="flex-1 min-w-0">
                               <p className="text-xs text-gray-700 leading-snug line-clamp-2">{task.content}</p>
@@ -186,8 +194,9 @@ export default function AssigneeOverview({ tasks, settings, selectedAssignee, on
                                 )}
                               </div>
                             </div>
+                            <span className="text-xs text-blue-400 flex-shrink-0 mt-0.5">編集 →</span>
                           </div>
-                        </div>
+                        </button>
                       )
                     })
                   )}
@@ -198,5 +207,16 @@ export default function AssigneeOverview({ tasks, settings, selectedAssignee, on
         })}
       </div>
     </div>
+
+    {editingTask && (
+      <EditTaskModal
+        task={editingTask}
+        settings={settings}
+        onClose={() => setEditingTask(null)}
+        onUpdated={() => { setEditingTask(null); onUpdated() }}
+        onDeleted={() => { setEditingTask(null); onUpdated() }}
+      />
+    )}
+    </>
   )
 }
