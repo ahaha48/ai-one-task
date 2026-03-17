@@ -3,7 +3,7 @@
 import { Settings, TaskStatus } from '@/lib/supabase'
 
 export type Filters = {
-  status: TaskStatus | 'すべて'
+  status: TaskStatus | 'すべて' | '未完了'
   assignee: string
   category: string
   requester: string
@@ -21,7 +21,7 @@ type Props = {
 }
 
 const DEFAULT_FILTERS: Filters = {
-  status: 'すべて',
+  status: '未完了',
   assignee: '',
   category: '',
   requester: '',
@@ -89,10 +89,11 @@ export default function FilterBar({ filters, sortKey, settings, onChange, onSort
           onChange={e => onChange({ ...filters, status: e.target.value as Filters['status'] })}
           className={filters.status !== 'すべて' ? `${selectCls} border-blue-400 bg-blue-50 font-medium text-blue-700` : selectCls}
         >
-          <option value="すべて">すべてのステータス</option>
-          <option value="未対応">未対応</option>
-          <option value="対応中">対応中</option>
-          <option value="完了">完了</option>
+          <option value="未完了">未完了（未対応＋対応中）</option>
+          <option value="すべて">すべて（完了含む）</option>
+          <option value="未対応">未対応のみ</option>
+          <option value="対応中">対応中のみ</option>
+          <option value="完了">完了のみ</option>
         </select>
 
         <select

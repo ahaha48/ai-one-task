@@ -11,7 +11,7 @@ import AssigneeSummaryBar from '@/components/AssigneeSummaryBar'
 import StackedTaskList from '@/components/StackedTaskList'
 
 const DEFAULT_FILTERS: Filters = {
-  status: '未対応',
+  status: '未完了',
   assignee: '',
   category: '',
   requester: '',
@@ -56,7 +56,8 @@ export default function Home() {
 
   const filtered = tasks
     .filter(t => {
-      if (filters.status !== 'すべて' && t.status !== filters.status) return false
+      if (filters.status === '未完了' && t.status === '完了') return false
+      if (filters.status !== 'すべて' && filters.status !== '未完了' && t.status !== filters.status) return false
       if (filters.assignee && !t.assignee.split(',').map(s => s.trim()).includes(filters.assignee)) return false
       if (filters.category && t.category !== filters.category) return false
       if (filters.requester && t.requester !== filters.requester) return false
