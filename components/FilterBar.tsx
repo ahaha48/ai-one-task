@@ -5,7 +5,6 @@ import { Settings, TaskStatus } from '@/lib/supabase'
 export type Filters = {
   status: TaskStatus | 'すべて' | '未完了'
   assignee: string
-  category: string
   requester: string
   keyword: string
 }
@@ -23,7 +22,6 @@ type Props = {
 const DEFAULT_FILTERS: Filters = {
   status: '未完了',
   assignee: '',
-  category: '',
   requester: '',
   keyword: '',
 }
@@ -32,7 +30,6 @@ function isFiltered(filters: Filters, sortKey: SortKey) {
   return (
     filters.status !== 'すべて' ||
     filters.assignee !== '' ||
-    filters.category !== '' ||
     filters.requester !== '' ||
     filters.keyword !== '' ||
     sortKey !== 'created_desc'
@@ -103,15 +100,6 @@ export default function FilterBar({ filters, sortKey, settings, onChange, onSort
         >
           <option value="">すべての依頼先</option>
           {settings.assignees.map(a => <option key={a}>{a}</option>)}
-        </select>
-
-        <select
-          value={filters.category}
-          onChange={e => onChange({ ...filters, category: e.target.value })}
-          className={filters.category ? `${selectCls} border-blue-400 bg-blue-50 font-medium text-blue-700` : selectCls}
-        >
-          <option value="">すべてのカテゴリ</option>
-          {settings.categories.map(c => <option key={c}>{c}</option>)}
         </select>
 
         <select

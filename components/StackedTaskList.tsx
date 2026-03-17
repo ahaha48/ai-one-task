@@ -18,14 +18,6 @@ const STATUS_COLORS: Record<TaskStatus, string> = {
   '完了': 'bg-green-100 text-green-700',
 }
 
-const CATEGORY_COLORS: Record<string, string> = {
-  '質問対応': 'bg-purple-100 text-purple-700',
-  '事務手続連絡': 'bg-blue-100 text-blue-700',
-  'スケジュール確認': 'bg-cyan-100 text-cyan-700',
-  '業務連絡': 'bg-orange-100 text-orange-700',
-  '依頼': 'bg-pink-100 text-pink-700',
-  'その他': 'bg-gray-100 text-gray-700',
-}
 
 function formatDate(iso: string) {
   const d = new Date(iso)
@@ -70,8 +62,6 @@ export default function StackedTaskList({ tasks, settings, onUpdated, onDeleted 
           const done = task.status === '完了'
           const dueDateStatus = done ? 'normal' : getDueDateStatus(task.due_date)
           const dueStyle = DUE_STYLES[dueDateStatus]
-          const catColor = CATEGORY_COLORS[task.category] ?? 'bg-gray-100 text-gray-700'
-
           const baseBg = urgent ? 'bg-red-50' : done ? 'bg-gray-50' : dueStyle.card.split(' ')[0]
           const tabBg = isExpanded ? baseBg : `${baseBg} hover:brightness-95`
 
@@ -89,7 +79,6 @@ export default function StackedTaskList({ tasks, settings, onUpdated, onDeleted 
 
                 {/* バッジ類 */}
                 <div className="flex items-center gap-1.5 flex-shrink-0">
-                  <span className={`hidden sm:inline text-xs font-medium px-2 py-0.5 rounded-full ${catColor}`}>{task.category}</span>
                   <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_COLORS[task.status]}`}>{task.status}</span>
                 </div>
 
