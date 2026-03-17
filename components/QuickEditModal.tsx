@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Task, TaskStatus } from '@/lib/supabase'
+import { getDueDateStatus, formatDueDate } from '@/lib/dateUtils'
 
 type Props = {
   task: Task
@@ -42,15 +43,47 @@ export default function QuickEditModal({ task, assigneeName, onClose, onUpdated 
     onClose()
   }
 
+  const dueDateStatus = getDueDateStatus(task.due_date)
+  const dueLabelColors: Record<string, string> = {
+    overdue: 'text-orange-600 bg-orange-50',
+    today: 'text-blue-600 bg-blue-50',
+    tomorrow: 'text-yellow-600 bg-yellow-50',
+    normal: 'text-gray-500 bg-gray-50',
+  }
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center z-50 p-0 sm:p-4">
-      <div className="bg-white rounded-t-2xl sm:rounded-xl shadow-xl w-full max-w-md">
-        <div className="flex items-center justify-between px-5 py-4 border-b">
-          <h2 className="text-base font-bold text-gray-800 line-clamp-1">{task.content}</h2>
+      <div className="bg-white rounded-t-2xl sm:rounded-xl shadow-xl w-full max-w-lg flex flex-col max-h-[92vh] sm:max-h-[90vh]">
+
+        {/* ヘッダー */}
+        <div className="flex items-center justify-between px-5 py-4 border-b flex-shrink-0">
+          <h2 className="text-base font-bold text-gray-800">タスク詳細</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
         </div>
 
-        <div className="px-5 py-4 space-y-4">
+        <div className="overflow-y-auto flex-1 px-5 py-4 space-y-4">
+
+          {/* タスク内容カード */}
+          <div className="bg-gray-50 rounded-xl p-4 space-y-3 border">
+            {task.is_urgent && (
+              <div className="flex items-center gap-1.5 text-red-600 text-xs font-bold">
+                🚨 至急対応
+              </div>
+            )}
+            <p className="text-sm text-gray-800 font-medium leading-relaxed">{task.content}</p>
+            <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
+              <span>依頼者: <strong className="text-gray-700">{task.requester}</strong></span>
+              <span>→</span>
+              <span>依頼先: <strong className="text-gray-700">{task.assignee.split(',').map(s => s.trim()).join(' / ')}</strong></span>
+            </div>
+            {task.due_date && (
+              <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded ${dueLabelColors[dueDateStatus]}`}>
+                期日 {formatDueDate(task.due_date)}
+              </span>
+            )}
+          </div>
+
+          {/* ステータス */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">ステータス</label>
             <div className="flex gap-2">
@@ -72,6 +105,7 @@ export default function QuickEditModal({ task, assigneeName, onClose, onUpdated 
             </div>
           </div>
 
+          {/* メモ */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">状況メモ（任意）</label>
             <textarea
@@ -84,7 +118,8 @@ export default function QuickEditModal({ task, assigneeName, onClose, onUpdated 
           </div>
         </div>
 
-        <div className="flex gap-3 px-5 py-4 border-t">
+        {/* フッター */}
+        <div className="flex gap-3 px-5 py-4 border-t flex-shrink-0">
           <button onClick={onClose} className="flex-1 border rounded-lg py-2.5 text-sm text-gray-600 hover:bg-gray-50">
             キャンセル
           </button>
