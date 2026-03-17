@@ -56,8 +56,8 @@ export default function EditTaskModal({ task, settings, onClose, onUpdated, onDe
       ...selectedAssignees,
       ...(otherChecked && otherAssignee.trim() ? [otherAssignee.trim()] : []),
     ]
-    if (!form.content || !form.requester || assigneeList.length === 0 || !form.category) {
-      setError('カテゴリ・依頼内容・依頼者・依頼先は必須です')
+    if (!form.content || !form.requester || assigneeList.length === 0 || !form.due_date) {
+      setError('依頼内容・依頼者・依頼先・期日は必須です')
       return
     }
     setLoading(true)
@@ -67,7 +67,7 @@ export default function EditTaskModal({ task, settings, onClose, onUpdated, onDe
       body: JSON.stringify({
         ...form,
         assignee: assigneeList.join(', '),
-        due_date: form.due_date || null,
+        due_date: form.due_date,
       }),
     })
     setLoading(false)
@@ -96,18 +96,6 @@ export default function EditTaskModal({ task, settings, onClose, onUpdated, onDe
             />
             <span className="text-sm font-bold text-red-600">🚨 至急対応</span>
           </label>
-
-          {/* カテゴリ */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">カテゴリ <span className="text-red-500">*</span></label>
-            <select
-              value={form.category}
-              onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
-              className="w-full border rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-            >
-              {settings.categories.map(c => <option key={c}>{c}</option>)}
-            </select>
-          </div>
 
           {/* ステータス */}
           <div>
@@ -184,11 +172,12 @@ export default function EditTaskModal({ task, settings, onClose, onUpdated, onDe
 
           {/* 期日 */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">期日（任意）</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">期日 <span className="text-red-500">*</span></label>
             <input
               type="date"
               value={form.due_date}
               onChange={e => setForm(f => ({ ...f, due_date: e.target.value }))}
+              required
               className="w-full border rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
