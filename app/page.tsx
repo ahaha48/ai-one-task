@@ -108,6 +108,32 @@ export default function Home() {
         .map(cat => ({ category: cat, tasks: filtered.filter(t => t.category === cat) }))
     )
     .filter(g => g.tasks.length > 0)
+    .sort((a, b) => {
+      // ソートキーに応じてカテゴリ順も並び替え
+      switch (sortKey) {
+        case 'urgent_first': {
+          const urgA = a.tasks.filter(t => t.is_urgent && t.status !== '完了').length
+          const urgB = b.tasks.filter(t => t.is_urgent && t.status !== '完了').length
+          if (urgA !== urgB) return urgB - urgA
+          return b.tasks.length - a.tasks.length
+        }
+        case 'due_date': {
+          const minDue = (ts: typeof filtered) => {
+            const dates = ts.map(t => t.due_date).filter(Boolean) as string[]
+            return dates.length > 0 ? dates.sort()[0] : '9999-12-31'
+          }
+          return minDue(a.tasks).localeCompare(minDue(b.tasks))
+        }
+        case 'status': {
+          const urgA = a.tasks.filter(t => t.status === '未対応').length
+          const urgB = b.tasks.filter(t => t.status === '未対応').length
+          if (urgA !== urgB) return urgB - urgA
+          return b.tasks.length - a.tasks.length
+        }
+        default:
+          return 0 // 登録順は設定の並び順を維持
+      }
+    })
 
   if (loading) return <div className="min-h-screen flex items-center justify-center text-gray-500">読み込み中...</div>
 
