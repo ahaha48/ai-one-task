@@ -7,7 +7,7 @@ import TaskCard from '@/components/TaskCard'
 import AddTaskModal from '@/components/AddTaskModal'
 import FilterBar, { Filters, SortKey } from '@/components/FilterBar'
 import AssigneeBoard from '@/components/AssigneeBoard'
-import AssigneeSummaryBar from '@/components/AssigneeSummaryBar'
+import AssigneeOverview from '@/components/AssigneeOverview'
 import StackedTaskList from '@/components/StackedTaskList'
 
 const DEFAULT_FILTERS: Filters = {
@@ -188,31 +188,17 @@ export default function Home() {
 
       <main className="max-w-6xl mx-auto px-3 py-4 sm:px-6 sm:py-5 space-y-4 sm:space-y-5">
 
-        {/* サマリー */}
-        <div className="grid grid-cols-3 gap-4">
-          <div className="bg-white rounded-xl border p-4 text-center shadow-sm">
-            <p className="text-2xl font-bold text-red-500">{counts['未対応']}</p>
-            <p className="text-xs text-gray-500 mt-1">未対応</p>
-          </div>
-          <div className="bg-white rounded-xl border p-4 text-center shadow-sm">
-            <p className="text-2xl font-bold text-yellow-500">{counts['対応中']}</p>
-            <p className="text-xs text-gray-500 mt-1">対応中</p>
-          </div>
-          <div className="bg-white rounded-xl border p-4 text-center shadow-sm">
-            <p className="text-2xl font-bold text-green-500">{counts['完了']}</p>
-            <p className="text-xs text-gray-500 mt-1">完了</p>
-          </div>
-        </div>
-
-        {/* 担当者別タスク数サマリー */}
-        <AssigneeSummaryBar
-          tasks={tasks}
-          settings={settings}
-          onFilterByAssignee={name => {
-            setViewMode('stack')
-            setFilters(f => ({ ...f, assignee: f.assignee === name ? '' : name, keyword: '' }))
-          }}
-        />
+        {/* 担当者別タスク状況（メイン概要） */}
+        {viewMode !== 'assignee' && (
+          <AssigneeOverview
+            tasks={tasks}
+            settings={settings}
+            selectedAssignee={filters.assignee}
+            onSelectAssignee={name => {
+              setFilters(f => ({ ...f, assignee: f.assignee === name ? '' : name }))
+            }}
+          />
+        )}
 
         {/* フィルター（リスト・カード表示時のみ） */}
         {viewMode !== 'assignee' && (
