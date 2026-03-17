@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import { sendTaskReminders } from '@/lib/email'
+import { sendLineGroupNotification } from '@/lib/line'
 import { Settings } from '@/lib/supabase'
 
 export async function POST(req: NextRequest) {
@@ -38,13 +39,25 @@ export async function POST(req: NextRequest) {
   members.forEach((name, i) => { if (name && memberEmails[i]) emailMap[name] = memberEmails[i] })
   assignees.forEach((name, i) => { if (name && assigneeEmails[i]) emailMap[name] = assigneeEmails[i] })
 
+  const results: Record<string, unknown> = {}
+
+  // メール通知
   try {
-    const result = await sendTaskReminders(tasks, emailMap, fromEmail)
-    return NextResponse.json({ success: true, ...result })
+    const emailResult = await sendTaskReminders(tasks, emailMap, fromEmail)
+    results.email = emailResult
   } catch (e) {
-    const msg = e instanceof Error ? e.message : '不明なエラー'
-    return NextResponse.json({ error: msg }, { status: 500 })
+    results.emailError = e instanceof Error ? e.message : '不明なエラー'
   }
+
+  // LINE通知
+  try {
+    const lineResult = await sendLineGroupNotification(tasks)
+    results.line = lineResult
+  } catch (e) {
+    results.lineError = e instanceof Error ? e.message : '不明なエラー'
+  }
+
+  return NextResponse.json({ success: true, ...results })
 }
 
 // Vercel Cronからの GET も受け付ける
