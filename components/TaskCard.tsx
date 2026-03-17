@@ -24,14 +24,6 @@ const STATUS_NEXT: Record<TaskStatus, TaskStatus> = {
   '完了': '未対応',
 }
 
-const CATEGORY_COLORS: Record<string, string> = {
-  '質問対応': 'bg-purple-100 text-purple-700',
-  '事務手続連絡': 'bg-blue-100 text-blue-700',
-  'スケジュール確認': 'bg-cyan-100 text-cyan-700',
-  '業務連絡': 'bg-orange-100 text-orange-700',
-  '依頼': 'bg-pink-100 text-pink-700',
-  'その他': 'bg-gray-100 text-gray-700',
-}
 
 function formatDate(iso: string) {
   const d = new Date(iso)
@@ -75,7 +67,6 @@ export default function TaskCard({ task, settings, onUpdated, onDeleted }: Props
     onDeleted()
   }
 
-  const catColor = CATEGORY_COLORS[task.category] ?? 'bg-gray-100 text-gray-700'
   const urgent = task.is_urgent === true && task.status !== '完了'
   const done = task.status === '完了'
   const dueDateStatus = done ? 'normal' : getDueDateStatus(task.due_date)
@@ -105,7 +96,6 @@ export default function TaskCard({ task, settings, onUpdated, onDeleted }: Props
       )}
       <div className="flex items-start justify-between gap-2">
         <div className="flex flex-wrap gap-2">
-          <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${catColor}`}>{task.category}</span>
           <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_COLORS[task.status]}`}>{task.status}</span>
         </div>
         <div className="flex flex-col items-end gap-0.5">
