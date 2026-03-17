@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Task, Settings, getAssigneeStatus } from '@/lib/supabase'
 import { getDueDateStatus, formatDueDate } from '@/lib/dateUtils'
-import EditTaskModal from '@/components/EditTaskModal'
+import QuickEditModal from '@/components/QuickEditModal'
 
 type Props = {
   tasks: Task[]
@@ -21,7 +21,7 @@ function formatDueDateShort(dateStr: string | null): string {
 
 export default function AssigneeOverview({ tasks, settings, selectedAssignee, onSelectAssignee, onUpdated }: Props) {
   const [expandedNames, setExpandedNames] = useState<Set<string>>(new Set())
-  const [editingTask, setEditingTask] = useState<Task | null>(null)
+  const [editingTask, setEditingTask] = useState<{ task: Task; assigneeName: string } | null>(null)
 
   const members = settings.members.filter(Boolean)
   const fromSettings = [...new Set([...settings.assignees, ...members])]
@@ -176,7 +176,7 @@ export default function AssigneeOverview({ tasks, settings, selectedAssignee, on
                         <button
                           key={task.id}
                           className="w-full px-4 py-2.5 hover:bg-blue-50 text-left transition-colors"
-                          onClick={() => setEditingTask(task)}
+                          onClick={() => setEditingTask({ task, assigneeName: name })}
                         >
                           <div className="flex items-start gap-2">
                             <div className="flex-1 min-w-0">
@@ -209,12 +209,11 @@ export default function AssigneeOverview({ tasks, settings, selectedAssignee, on
     </div>
 
     {editingTask && (
-      <EditTaskModal
-        task={editingTask}
-        settings={settings}
+      <QuickEditModal
+        task={editingTask.task}
+        assigneeName={editingTask.assigneeName}
         onClose={() => setEditingTask(null)}
         onUpdated={() => { setEditingTask(null); onUpdated() }}
-        onDeleted={() => { setEditingTask(null); onUpdated() }}
       />
     )}
     </>
