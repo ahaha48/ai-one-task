@@ -128,14 +128,14 @@ export default function SettingsPage() {
 
         {/* CSメンバー */}
         <section className="bg-white rounded-xl shadow-sm border p-5">
-          <h2 className="font-bold text-gray-700 mb-1">CSメンバー（依頼者）</h2>
+          <h2 className="font-bold text-gray-900 mb-1">CSメンバー（依頼者）</h2>
           <p className="text-xs text-gray-400 mb-4">名前の変更・並び替え・追加・削除ができます</p>
           <div className="space-y-2">
             {settings.members.map((m, i) => (
               <div key={i} className="flex items-center gap-2">
                 <div className="flex flex-col gap-0.5">
-                  <button onClick={() => moveMember(i, -1)} disabled={i === 0} className="text-gray-300 hover:text-gray-600 disabled:opacity-20 text-xs leading-none">▲</button>
-                  <button onClick={() => moveMember(i, 1)} disabled={i === settings.members.length - 1} className="text-gray-300 hover:text-gray-600 disabled:opacity-20 text-xs leading-none">▼</button>
+                  <button onClick={() => moveMember(i, -1)} disabled={i === 0} className="text-gray-300 hover:text-gray-800 disabled:opacity-20 text-xs leading-none">▲</button>
+                  <button onClick={() => moveMember(i, 1)} disabled={i === settings.members.length - 1} className="text-gray-300 hover:text-gray-800 disabled:opacity-20 text-xs leading-none">▼</button>
                 </div>
                 <div className="flex-1 flex gap-2">
                   <input
@@ -161,14 +161,14 @@ export default function SettingsPage() {
 
         {/* 依頼先 */}
         <section className="bg-white rounded-xl shadow-sm border p-5">
-          <h2 className="font-bold text-gray-700 mb-1">依頼先</h2>
+          <h2 className="font-bold text-gray-900 mb-1">依頼先</h2>
           <p className="text-xs text-gray-400 mb-4">名前の変更・並び替え・追加・削除ができます</p>
           <div className="space-y-2">
             {settings.assignees.map((a, i) => (
               <div key={i} className="flex items-center gap-2">
                 <div className="flex flex-col gap-0.5">
-                  <button onClick={() => moveListItem('assignees', i, -1)} disabled={i === 0} className="text-gray-300 hover:text-gray-600 disabled:opacity-20 text-xs leading-none">▲</button>
-                  <button onClick={() => moveListItem('assignees', i, 1)} disabled={i === settings.assignees.length - 1} className="text-gray-300 hover:text-gray-600 disabled:opacity-20 text-xs leading-none">▼</button>
+                  <button onClick={() => moveListItem('assignees', i, -1)} disabled={i === 0} className="text-gray-300 hover:text-gray-800 disabled:opacity-20 text-xs leading-none">▲</button>
+                  <button onClick={() => moveListItem('assignees', i, 1)} disabled={i === settings.assignees.length - 1} className="text-gray-300 hover:text-gray-800 disabled:opacity-20 text-xs leading-none">▼</button>
                 </div>
                 <div className="flex-1 flex gap-2">
                   <input
@@ -199,14 +199,14 @@ export default function SettingsPage() {
 
         {/* カテゴリ */}
         <section className="bg-white rounded-xl shadow-sm border p-5">
-          <h2 className="font-bold text-gray-700 mb-1">カテゴリ</h2>
+          <h2 className="font-bold text-gray-900 mb-1">カテゴリ</h2>
           <p className="text-xs text-gray-400 mb-4">名前の変更・並び替え・追加・削除ができます</p>
           <div className="space-y-2">
             {settings.categories.map((c, i) => (
               <div key={i} className="flex items-center gap-2">
                 <div className="flex flex-col gap-0.5">
-                  <button onClick={() => moveListItem('categories', i, -1)} disabled={i === 0} className="text-gray-300 hover:text-gray-600 disabled:opacity-20 text-xs leading-none">▲</button>
-                  <button onClick={() => moveListItem('categories', i, 1)} disabled={i === settings.categories.length - 1} className="text-gray-300 hover:text-gray-600 disabled:opacity-20 text-xs leading-none">▼</button>
+                  <button onClick={() => moveListItem('categories', i, -1)} disabled={i === 0} className="text-gray-300 hover:text-gray-800 disabled:opacity-20 text-xs leading-none">▲</button>
+                  <button onClick={() => moveListItem('categories', i, 1)} disabled={i === settings.categories.length - 1} className="text-gray-300 hover:text-gray-800 disabled:opacity-20 text-xs leading-none">▼</button>
                 </div>
                 <input
                   value={c}
@@ -223,12 +223,12 @@ export default function SettingsPage() {
 
         {/* メール通知 */}
         <section className="bg-white rounded-xl shadow-sm border p-5">
-          <h2 className="font-bold text-gray-700 mb-1">メール通知設定</h2>
+          <h2 className="font-bold text-gray-900 mb-1">メール通知設定</h2>
           <p className="text-xs text-gray-500 mb-4">期日前日・当日・超過のまま未対応のタスクを担当者にメールで通知します。毎朝9時に自動送信されます（Vercelデプロイ後に有効）。</p>
 
           <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">送信元メールアドレス</label>
+              <label className="block text-sm font-medium text-gray-900 mb-1">送信元メールアドレス</label>
               <input
                 value={settings.notify_from_email ?? ''}
                 onChange={e => setSettings(s => ({ ...s, notify_from_email: e.target.value }))}
@@ -259,7 +259,7 @@ export default function SettingsPage() {
 
         {/* Discord */}
         <section className="bg-white rounded-xl shadow-sm border p-5">
-          <h2 className="font-bold text-gray-700 mb-1">Discord Webhook URL</h2>
+          <h2 className="font-bold text-gray-900 mb-1">Discord Webhook URL</h2>
           <p className="text-xs text-gray-500 mb-3">タスク作成時にDiscordへ通知します。不要な場合は空白のままでOK。</p>
           <input
             value={settings.discord_webhook}

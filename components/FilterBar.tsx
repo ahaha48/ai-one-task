@@ -72,7 +72,7 @@ export default function FilterBar({ filters, sortKey, settings, onChange, onSort
         <select
           value={sortKey}
           onChange={e => onSortChange(e.target.value as SortKey)}
-          className={`${selectCls} font-medium text-gray-700`}
+          className={`${selectCls} font-medium text-gray-900`}
         >
           <option value="created_desc">登録順（新しい順）</option>
           <option value="created_asc">登録順（古い順）</option>

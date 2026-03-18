@@ -83,7 +83,7 @@ export default function StackedTaskList({ tasks, settings, onUpdated, onDeleted 
                 </div>
 
                 {/* 依頼内容（省略） */}
-                <span className="flex-1 text-sm text-gray-700 truncate min-w-0">{task.content}</span>
+                <span className="flex-1 text-sm text-gray-900 truncate min-w-0">{task.content}</span>
 
                 {/* 右：担当・期日 */}
                 <div className="flex items-center gap-2 flex-shrink-0 text-xs text-gray-400">
@@ -102,16 +102,16 @@ export default function StackedTaskList({ tasks, settings, onUpdated, onDeleted 
               {isExpanded && (
                 <div className={`px-6 pb-4 pt-2 border-t ${baseBg}`}>
                   <div className="space-y-3">
-                    <p className="text-sm text-gray-800 font-medium leading-relaxed">{task.content}</p>
+                    <p className="text-sm text-gray-900 font-medium leading-relaxed">{task.content}</p>
 
                     <div className="flex items-center gap-3 text-xs text-gray-500">
-                      <span>依頼者: <strong className="text-gray-700">{task.requester}</strong></span>
+                      <span>依頼者: <strong className="text-gray-900">{task.requester}</strong></span>
                       <span>→</span>
-                      <span>依頼先: <strong className="text-gray-700">{task.assignee.split(',').map(s => s.trim()).join(' / ')}</strong></span>
+                      <span>依頼先: <strong className="text-gray-900">{task.assignee.split(',').map(s => s.trim()).join(' / ')}</strong></span>
                     </div>
 
                     {task.memo && (
-                      <p className="text-xs text-gray-600 bg-white/70 rounded-lg p-2 border">{task.memo}</p>
+                      <p className="text-xs text-gray-800 bg-white/70 rounded-lg p-2 border">{task.memo}</p>
                     )}
 
                     <div className="flex items-center gap-2 pt-1">

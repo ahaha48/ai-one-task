@@ -80,8 +80,8 @@ export default function EditTaskModal({ task, settings, onClose, onUpdated, onDe
     <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center z-50 p-0 sm:p-4">
       <div className="bg-white rounded-t-2xl sm:rounded-xl shadow-xl w-full max-w-lg max-h-[92vh] sm:max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between p-5 border-b sticky top-0 bg-white">
-          <h2 className="text-lg font-bold text-gray-800">タスクを編集</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+          <h2 className="text-lg font-bold text-gray-900">タスクを編集</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-800 text-2xl leading-none">&times;</button>
         </div>
         <form onSubmit={handleSubmit} className="p-5 space-y-4">
           {error && <p className="text-red-500 text-sm bg-red-50 p-2 rounded">{error}</p>}
@@ -99,7 +99,7 @@ export default function EditTaskModal({ task, settings, onClose, onUpdated, onDe
 
           {/* ステータス */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">ステータス</label>
+            <label className="block text-sm font-medium text-gray-900 mb-1">ステータス</label>
             <select
               value={form.status}
               onChange={e => setForm(f => ({ ...f, status: e.target.value as TaskStatus }))}
@@ -113,7 +113,7 @@ export default function EditTaskModal({ task, settings, onClose, onUpdated, onDe
 
           {/* 依頼者 */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">依頼者 <span className="text-red-500">*</span></label>
+            <label className="block text-sm font-medium text-gray-900 mb-1">依頼者 <span className="text-red-500">*</span></label>
             <select
               value={form.requester}
               onChange={e => setForm(f => ({ ...f, requester: e.target.value }))}
@@ -126,7 +126,7 @@ export default function EditTaskModal({ task, settings, onClose, onUpdated, onDe
 
           {/* 依頼先 */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">依頼先 <span className="text-red-500">*</span></label>
+            <label className="block text-sm font-medium text-gray-900 mb-1">依頼先 <span className="text-red-500">*</span></label>
             <div className="border rounded-lg p-2 space-y-1 max-h-48 overflow-y-auto">
               {allAssignees.map(a => (
                 <label key={a} className={`flex items-center gap-2 px-2 py-1 rounded cursor-pointer hover:bg-gray-50 ${selectedAssignees.includes(a) ? 'bg-blue-50' : ''}`}>
@@ -136,7 +136,7 @@ export default function EditTaskModal({ task, settings, onClose, onUpdated, onDe
                     onChange={() => toggleAssignee(a)}
                     className="accent-blue-600"
                   />
-                  <span className="text-sm text-gray-700">{a}</span>
+                  <span className="text-sm text-gray-900">{a}</span>
                 </label>
               ))}
               <label className={`flex items-center gap-2 px-2 py-1 rounded cursor-pointer hover:bg-gray-50 ${otherChecked ? 'bg-blue-50' : ''}`}>
@@ -146,7 +146,7 @@ export default function EditTaskModal({ task, settings, onClose, onUpdated, onDe
                   onChange={e => setOtherChecked(e.target.checked)}
                   className="accent-blue-600"
                 />
-                <span className="text-sm text-gray-700">その他の依頼先</span>
+                <span className="text-sm text-gray-900">その他の依頼先</span>
               </label>
             </div>
             {otherChecked && (
@@ -161,7 +161,7 @@ export default function EditTaskModal({ task, settings, onClose, onUpdated, onDe
 
           {/* 依頼内容 */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">依頼内容 <span className="text-red-500">*</span></label>
+            <label className="block text-sm font-medium text-gray-900 mb-1">依頼内容 <span className="text-red-500">*</span></label>
             <textarea
               value={form.content}
               onChange={e => setForm(f => ({ ...f, content: e.target.value }))}
@@ -172,7 +172,7 @@ export default function EditTaskModal({ task, settings, onClose, onUpdated, onDe
 
           {/* 期日 */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">期日 <span className="text-red-500">*</span></label>
+            <label className="block text-sm font-medium text-gray-900 mb-1">期日 <span className="text-red-500">*</span></label>
             <input
               type="date"
               value={form.due_date}
@@ -184,7 +184,7 @@ export default function EditTaskModal({ task, settings, onClose, onUpdated, onDe
 
           {/* 状況メモ */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">状況（任意）</label>
+            <label className="block text-sm font-medium text-gray-900 mb-1">状況（任意）</label>
             <textarea
               value={form.memo}
               onChange={e => setForm(f => ({ ...f, memo: e.target.value }))}
@@ -195,7 +195,7 @@ export default function EditTaskModal({ task, settings, onClose, onUpdated, onDe
           </div>
 
           <div className="flex gap-3 pt-2">
-            <button type="button" onClick={onClose} className="flex-1 border rounded-lg py-2 text-sm text-gray-600 hover:bg-gray-50">
+            <button type="button" onClick={onClose} className="flex-1 border rounded-lg py-2 text-sm text-gray-800 hover:bg-gray-50">
               キャンセル
             </button>
             <button type="submit" disabled={loading} className="flex-1 bg-blue-600 text-white rounded-lg py-2 text-sm hover:bg-blue-700 disabled:opacity-50">
@@ -214,12 +214,12 @@ export default function EditTaskModal({ task, settings, onClose, onUpdated, onDe
               </button>
             ) : (
               <div className="space-y-2">
-                <p className="text-sm text-center text-gray-600">本当に削除しますか？この操作は取り消せません。</p>
+                <p className="text-sm text-center text-gray-800">本当に削除しますか？この操作は取り消せません。</p>
                 <div className="flex gap-2">
                   <button
                     type="button"
                     onClick={() => setShowDeleteConfirm(false)}
-                    className="flex-1 border rounded-lg py-2 text-sm text-gray-600 hover:bg-gray-50"
+                    className="flex-1 border rounded-lg py-2 text-sm text-gray-800 hover:bg-gray-50"
                   >
                     キャンセル
                   </button>

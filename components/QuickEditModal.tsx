@@ -57,8 +57,8 @@ export default function QuickEditModal({ task, assigneeName, onClose, onUpdated 
 
         {/* ヘッダー */}
         <div className="flex items-center justify-between px-5 py-4 border-b flex-shrink-0">
-          <h2 className="text-base font-bold text-gray-800">タスク詳細</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+          <h2 className="text-base font-bold text-gray-900">タスク詳細</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-800 text-2xl leading-none">&times;</button>
         </div>
 
         <div className="overflow-y-auto flex-1 px-5 py-4 space-y-4">
@@ -70,11 +70,11 @@ export default function QuickEditModal({ task, assigneeName, onClose, onUpdated 
                 🚨 至急対応
               </div>
             )}
-            <p className="text-sm text-gray-800 font-medium leading-relaxed">{task.content}</p>
+            <p className="text-sm text-gray-900 font-medium leading-relaxed">{task.content}</p>
             <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
-              <span>依頼者: <strong className="text-gray-700">{task.requester}</strong></span>
+              <span>依頼者: <strong className="text-gray-900">{task.requester}</strong></span>
               <span>→</span>
-              <span>依頼先: <strong className="text-gray-700">{task.assignee.split(',').map(s => s.trim()).join(' / ')}</strong></span>
+              <span>依頼先: <strong className="text-gray-900">{task.assignee.split(',').map(s => s.trim()).join(' / ')}</strong></span>
             </div>
             {task.due_date && (
               <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded ${dueLabelColors[dueDateStatus]}`}>
@@ -85,7 +85,7 @@ export default function QuickEditModal({ task, assigneeName, onClose, onUpdated 
 
           {/* ステータス */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">ステータス</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">ステータス</label>
             <div className="flex gap-2">
               {(['未対応', '対応中', '完了'] as TaskStatus[]).map(s => (
                 <button
@@ -107,7 +107,7 @@ export default function QuickEditModal({ task, assigneeName, onClose, onUpdated 
 
           {/* メモ */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">状況メモ（任意）</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">状況メモ（任意）</label>
             <textarea
               value={memo}
               onChange={e => setMemo(e.target.value)}
@@ -120,7 +120,7 @@ export default function QuickEditModal({ task, assigneeName, onClose, onUpdated 
 
         {/* フッター */}
         <div className="flex gap-3 px-5 py-4 border-t flex-shrink-0">
-          <button onClick={onClose} className="flex-1 border rounded-lg py-2.5 text-sm text-gray-600 hover:bg-gray-50">
+          <button onClick={onClose} className="flex-1 border rounded-lg py-2.5 text-sm text-gray-800 hover:bg-gray-50">
             キャンセル
           </button>
           <button onClick={handleSave} disabled={loading} className="flex-1 bg-blue-600 text-white rounded-lg py-2.5 text-sm hover:bg-blue-700 disabled:opacity-50 font-medium">

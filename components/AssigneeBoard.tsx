@@ -84,7 +84,7 @@ function TaskCardCompact({ task, assigneeName, onUpdated }: CompactProps) {
       </div>
 
       {/* 依頼内容 */}
-      <p className="text-xs text-gray-800 font-medium leading-relaxed">{task.content}</p>
+      <p className="text-xs text-gray-900 font-medium leading-relaxed">{task.content}</p>
 
       {/* 依頼者 */}
       <p className="text-xs text-gray-400">依頼者: {task.requester}</p>
@@ -116,7 +116,7 @@ function TaskCardCompact({ task, assigneeName, onUpdated }: CompactProps) {
         ) : (
           <button
             onClick={() => setEditingMemo(true)}
-            className={`w-full text-left text-xs rounded px-1.5 py-1 hover:bg-white/70 transition-colors ${memoValue ? 'text-gray-600 bg-white/50' : 'text-gray-300 italic'}`}
+            className={`w-full text-left text-xs rounded px-1.5 py-1 hover:bg-white/70 transition-colors ${memoValue ? 'text-gray-800 bg-white/50' : 'text-gray-300 italic'}`}
           >
             {memoValue || '状況を入力...'}
           </button>
@@ -177,10 +177,10 @@ export default function AssigneeBoard({ tasks, settings, onUpdated }: Props) {
     <div className="space-y-3">
       {/* 一括操作 */}
       <div className="flex gap-2 justify-end">
-        <button onClick={expandAll} className="text-xs text-gray-500 hover:text-gray-700 border rounded-lg px-2.5 py-1 hover:bg-gray-50">
+        <button onClick={expandAll} className="text-xs text-gray-500 hover:text-gray-900 border rounded-lg px-2.5 py-1 hover:bg-gray-50">
           すべて開く
         </button>
-        <button onClick={collapseAll} className="text-xs text-gray-500 hover:text-gray-700 border rounded-lg px-2.5 py-1 hover:bg-gray-50">
+        <button onClick={collapseAll} className="text-xs text-gray-500 hover:text-gray-900 border rounded-lg px-2.5 py-1 hover:bg-gray-50">
           すべて閉じる
         </button>
       </div>
@@ -202,8 +202,8 @@ export default function AssigneeBoard({ tasks, settings, onUpdated }: Props) {
               onClick={() => toggleCollapse(name)}
             >
               <div className="flex items-center gap-3 flex-wrap">
-                <h3 className="font-bold text-gray-800 text-sm">{name}</h3>
-                <span className="text-xs bg-gray-100 text-gray-600 rounded-full px-2 py-0.5 font-medium">
+                <h3 className="font-bold text-gray-900 text-sm">{name}</h3>
+                <span className="text-xs bg-gray-100 text-gray-800 rounded-full px-2 py-0.5 font-medium">
                   {active.length}件対応中 / 全{all.length}件
                 </span>
                 {urgentCount > 0 && <span className="text-xs text-red-600 font-medium">🚨 至急 {urgentCount}</span>}

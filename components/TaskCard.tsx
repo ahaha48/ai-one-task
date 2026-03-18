@@ -108,11 +108,11 @@ export default function TaskCard({ task, settings, onUpdated, onDeleted }: Props
         </div>
       </div>
 
-      <p className="text-sm text-gray-800 font-medium leading-relaxed">{task.content}</p>
+      <p className="text-sm text-gray-900 font-medium leading-relaxed">{task.content}</p>
 
       <div className="text-xs text-gray-500">
         <div className="flex items-center justify-between mb-1">
-          <span className="font-medium text-gray-600">状況</span>
+          <span className="font-medium text-gray-800">状況</span>
           {!editingMemo && (
             <button onClick={() => setEditingMemo(true)} className="text-gray-400 hover:text-blue-500 text-xs">編集</button>
           )}
@@ -140,9 +140,9 @@ export default function TaskCard({ task, settings, onUpdated, onDeleted }: Props
       </div>
 
       <div className="flex items-start gap-3 text-xs text-gray-500">
-        <span className="whitespace-nowrap">依頼者: <strong className="text-gray-700">{task.requester}</strong></span>
+        <span className="whitespace-nowrap">依頼者: <strong className="text-gray-900">{task.requester}</strong></span>
         <span>→</span>
-        <span>依頼先: <strong className="text-gray-700">{task.assignee.split(',').map(s => s.trim()).join(' / ')}</strong></span>
+        <span>依頼先: <strong className="text-gray-900">{task.assignee.split(',').map(s => s.trim()).join(' / ')}</strong></span>
       </div>
 
       <div className="flex items-center gap-2 pt-1">

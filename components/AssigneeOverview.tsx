@@ -46,7 +46,7 @@ export default function AssigneeOverview({ tasks, settings, selectedAssignee, on
     <>
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-bold text-gray-600 uppercase tracking-wide">担当者別 タスク状況</h2>
+        <h2 className="text-sm font-bold text-gray-800 uppercase tracking-wide">担当者別 タスク状況</h2>
         {selectedAssignee && (
           <button
             onClick={() => onSelectAssignee('')}
@@ -97,7 +97,7 @@ export default function AssigneeOverview({ tasks, settings, selectedAssignee, on
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-gray-800 text-base truncate">{name}</span>
+                      <span className="font-bold text-gray-900 text-base truncate">{name}</span>
                       {isSelected && <span className="text-xs bg-blue-100 text-blue-700 rounded-full px-1.5 py-0.5 flex-shrink-0">絞込中</span>}
                     </div>
                     {/* アラート */}
@@ -112,7 +112,7 @@ export default function AssigneeOverview({ tasks, settings, selectedAssignee, on
                   </div>
                   {/* タスク数（大きく表示） */}
                   <div className="text-right flex-shrink-0">
-                    <div className={`text-3xl font-bold leading-none ${hasAlert ? 'text-red-500' : 'text-gray-700'}`}>
+                    <div className={`text-3xl font-bold leading-none ${hasAlert ? 'text-red-500' : 'text-gray-900'}`}>
                       {activeTasks.length}
                     </div>
                     <div className="text-xs text-gray-400 mt-0.5">件</div>
@@ -180,7 +180,7 @@ export default function AssigneeOverview({ tasks, settings, selectedAssignee, on
                         >
                           <div className="flex items-start gap-2">
                             <div className="flex-1 min-w-0">
-                              <p className="text-xs text-gray-700 leading-snug line-clamp-2">{task.content}</p>
+                              <p className="text-xs text-gray-900 leading-snug line-clamp-2">{task.content}</p>
                               <div className="flex items-center gap-2 mt-1">
                                 {task.is_urgent && <span className="text-xs text-red-600">🚨</span>}
                                 <span className={`text-xs font-medium ${

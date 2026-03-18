@@ -69,8 +69,8 @@ export default function AddTaskModal({ settings, onClose, onAdded }: Props) {
       <div className="bg-white rounded-t-2xl sm:rounded-xl shadow-xl w-full max-w-lg flex flex-col max-h-[92vh] sm:max-h-[90vh]">
         {/* ヘッダー（固定） */}
         <div className="flex items-center justify-between px-5 py-4 border-b flex-shrink-0">
-          <h2 className="text-lg font-bold text-gray-800">新しいタスクを追加</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+          <h2 className="text-lg font-bold text-gray-900">新しいタスクを追加</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-800 text-2xl leading-none">&times;</button>
         </div>
 
         {/* フォーム本体（スクロール可能） */}
@@ -92,7 +92,7 @@ export default function AddTaskModal({ settings, onClose, onAdded }: Props) {
             </label>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">依頼者 <span className="text-red-500">*</span></label>
+              <label className="block text-sm font-medium text-gray-900 mb-1">依頼者 <span className="text-red-500">*</span></label>
               <select
                 value={form.requester}
                 onChange={e => setForm(f => ({ ...f, requester: e.target.value }))}
@@ -104,7 +104,7 @@ export default function AddTaskModal({ settings, onClose, onAdded }: Props) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">依頼先 <span className="text-red-500">*</span></label>
+              <label className="block text-sm font-medium text-gray-900 mb-1">依頼先 <span className="text-red-500">*</span></label>
               <div className="border rounded-lg p-2 space-y-1 max-h-36 overflow-y-auto">
                 {allAssignees.map(a => (
                   <label key={a} className={`flex items-center gap-2 px-2 py-1 rounded cursor-pointer hover:bg-gray-50 ${selectedAssignees.includes(a) ? 'bg-blue-50' : ''}`}>
@@ -114,7 +114,7 @@ export default function AddTaskModal({ settings, onClose, onAdded }: Props) {
                       onChange={() => toggleAssignee(a)}
                       className="accent-blue-600"
                     />
-                    <span className="text-sm text-gray-700">{a}</span>
+                    <span className="text-sm text-gray-900">{a}</span>
                   </label>
                 ))}
                 <label className={`flex items-center gap-2 px-2 py-1 rounded cursor-pointer hover:bg-gray-50 ${otherChecked ? 'bg-blue-50' : ''}`}>
@@ -124,7 +124,7 @@ export default function AddTaskModal({ settings, onClose, onAdded }: Props) {
                     onChange={toggleOther}
                     className="accent-blue-600"
                   />
-                  <span className="text-sm text-gray-700">その他の依頼先</span>
+                  <span className="text-sm text-gray-900">その他の依頼先</span>
                 </label>
               </div>
               {otherChecked && (
@@ -143,7 +143,7 @@ export default function AddTaskModal({ settings, onClose, onAdded }: Props) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">依頼内容 <span className="text-red-500">*</span></label>
+              <label className="block text-sm font-medium text-gray-900 mb-1">依頼内容 <span className="text-red-500">*</span></label>
               <textarea
                 value={form.content}
                 onChange={e => setForm(f => ({ ...f, content: e.target.value }))}
@@ -154,7 +154,7 @@ export default function AddTaskModal({ settings, onClose, onAdded }: Props) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">期日 <span className="text-red-500">*</span></label>
+              <label className="block text-sm font-medium text-gray-900 mb-1">期日 <span className="text-red-500">*</span></label>
               <input
                 type="date"
                 value={form.due_date}
@@ -165,7 +165,7 @@ export default function AddTaskModal({ settings, onClose, onAdded }: Props) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">メモ（任意）</label>
+              <label className="block text-sm font-medium text-gray-900 mb-1">メモ（任意）</label>
               <textarea
                 value={form.memo}
                 onChange={e => setForm(f => ({ ...f, memo: e.target.value }))}
@@ -178,7 +178,7 @@ export default function AddTaskModal({ settings, onClose, onAdded }: Props) {
 
           {/* ボタン（固定フッター） */}
           <div className="flex gap-3 px-5 py-4 border-t flex-shrink-0">
-            <button type="button" onClick={onClose} className="flex-1 border rounded-lg py-2.5 text-sm text-gray-600 hover:bg-gray-50">
+            <button type="button" onClick={onClose} className="flex-1 border rounded-lg py-2.5 text-sm text-gray-800 hover:bg-gray-50">
               キャンセル
             </button>
             <button type="submit" disabled={loading} className="flex-1 bg-blue-600 text-white rounded-lg py-2.5 text-sm hover:bg-blue-700 disabled:opacity-50 font-medium">

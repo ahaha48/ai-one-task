@@ -41,8 +41,8 @@ export default function AssigneeSummaryBar({ tasks, settings, onFilterByAssignee
               onClick={() => onFilterByAssignee(name)}
               className="flex items-center gap-2 border rounded-lg px-3 py-1.5 hover:bg-gray-50 hover:border-blue-300 transition-colors text-left"
             >
-              <span className="text-sm font-medium text-gray-700">{name}</span>
-              <span className="text-xs bg-gray-100 text-gray-600 rounded-full px-1.5 py-0.5 font-medium">{active.length}件</span>
+              <span className="text-sm font-medium text-gray-900">{name}</span>
+              <span className="text-xs bg-gray-100 text-gray-800 rounded-full px-1.5 py-0.5 font-medium">{active.length}件</span>
               {urgent > 0 && <span className="text-xs text-red-600 font-medium">🚨{urgent}</span>}
               {overdue > 0 && <span className="text-xs text-orange-500 font-medium">⚠️{overdue}</span>}
               {today > 0 && <span className="text-xs text-blue-600 font-medium">📅{today}</span>}
