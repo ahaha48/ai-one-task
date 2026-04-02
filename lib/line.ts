@@ -1,4 +1,4 @@
-import { Task } from './supabase'
+import { Task, getAssigneeStatus } from './supabase'
 import { getDueDateStatus } from './dateUtils'
 
 export async function sendLineGroupNotification(tasks: Task[]) {
@@ -18,15 +18,18 @@ export async function sendLineGroupNotification(tasks: Task[]) {
 
   if (targetTasks.length === 0) return { sent: false, reason: '対象タスクなし' }
 
-  // 担当者ごとにまとめる
+  // 担当者ごとにまとめる（個別ステータスが完了の担当者は除外）
   const byAssignee: Record<string, { tasks: Task[] }> = {}
   for (const task of targetTasks) {
     const names = task.assignee.split(',').map(s => s.trim()).filter(Boolean)
     for (const name of names) {
+      if (getAssigneeStatus(task, name) === '完了') continue
       if (!byAssignee[name]) byAssignee[name] = { tasks: [] }
       byAssignee[name].tasks.push(task)
     }
   }
+
+  if (Object.keys(byAssignee).length === 0) return { sent: false, reason: '対象担当者なし' }
 
   const today = new Date().toLocaleDateString('ja-JP', { month: 'long', day: 'numeric' })
   const lines: string[] = [`📋 AI ONE タスク状況（${today}）\n`]

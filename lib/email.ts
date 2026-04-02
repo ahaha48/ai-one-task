@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import { Task } from './supabase'
+import { Task, getAssigneeStatus } from './supabase'
 import { getDueDateStatus } from './dateUtils'
 import { googleCalendarLink, generateICS } from './calendar'
 
@@ -37,6 +37,7 @@ export async function sendTaskReminders(
   for (const task of targetTasks) {
     const names = task.assignee.split(',').map(s => s.trim())
     for (const name of names) {
+      if (getAssigneeStatus(task, name) === '完了') continue
       if (!byAssignee[name]) byAssignee[name] = []
       byAssignee[name].push(task)
     }
