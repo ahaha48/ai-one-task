@@ -42,17 +42,30 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   // 通常のステータス更新（全体一括）
   const updates: Record<string, unknown> = { ...body }
-  if (body.status === '完了') {
-    updates.completed_at = new Date().toISOString()
-    // assignee_statusesも全員完了にする
-    if (body.assignee) {
-      const assignees = body.assignee.split(',').map((s: string) => s.trim())
-      const statuses: Record<string, TaskStatus> = {}
-      for (const a of assignees) statuses[a] = '完了'
-      updates.assignee_statuses = JSON.stringify(statuses)
+  if (body.status) {
+    // assignee_statusesも全担当者に反映する
+    const { data: currentTask } = await supabase
+      .from('tasks')
+      .select('assignee, assignee_statuses')
+      .eq('id', id)
+      .single()
+
+    if (currentTask) {
+      const assignees = currentTask.assignee.split(',').map((s: string) => s.trim()).filter(Boolean)
+      const currentStatuses: Record<string, TaskStatus> = currentTask.assignee_statuses
+        ? JSON.parse(currentTask.assignee_statuses)
+        : {}
+      for (const a of assignees) {
+        currentStatuses[a] = body.status as TaskStatus
+      }
+      updates.assignee_statuses = JSON.stringify(currentStatuses)
     }
-  } else if (body.status) {
-    updates.completed_at = null
+
+    if (body.status === '完了') {
+      updates.completed_at = new Date().toISOString()
+    } else {
+      updates.completed_at = null
+    }
   }
 
   const { data, error } = await supabase.from('tasks').update(updates).eq('id', id).select().single()
